@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const primaryColor = Color(0xFF232645);
+const secondaryColor = Color(0xFFD0DCF2);
+
 TextStyle textStyle = GoogleFonts.pacifico(
-  color: const Color(0xFF222B45),
+  color: primaryColor,
 );
 
 const double defaultPadding = 15;
 const double defaultBorderRadius = 15;
 const double defaultElevation = 8;
 const Duration defaultAnimationDuration = Duration(milliseconds: 200);
-
-const primaryColor = Color(0xFF232645);
 
 ThemeData appTheme = ThemeData(
   primaryColor: primaryColor,
@@ -32,6 +33,19 @@ ThemeData appTheme = ThemeData(
       backgroundColor: primaryColor,
     ),
   ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: primaryColor,
+    foregroundColor: Colors.white,
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(textStyle: GoogleFonts.pacifico()),
+  ),
+  dialogTheme: DialogTheme(
+      titleTextStyle: GoogleFonts.pacifico(
+    color: primaryColor,
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+  )),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   useMaterial3: true,
 );
