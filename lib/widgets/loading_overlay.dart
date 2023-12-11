@@ -24,7 +24,7 @@ class _LoadingOverlayState extends State<LoadingOverlay> {
         widget.child,
         if (widget.isLoading)
           const Opacity(
-            opacity: 0.8,
+            opacity: 0.7,
             child: ModalBarrier(
               dismissible: false,
               color: Colors.black,

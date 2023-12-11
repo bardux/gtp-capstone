@@ -11,7 +11,6 @@ class Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.only(
             top: defaultPadding * 2,
@@ -19,7 +18,6 @@ class Content extends StatelessWidget {
           ),
           child: Text(text),
         ),
-        // const SizedBox(height: 10),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),

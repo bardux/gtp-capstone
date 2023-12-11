@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:storyteller/constants/app_theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({super.key});
@@ -18,11 +17,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               letterSpacing: 5,
             ),
       ),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(defaultBorderRadius * 3),
-        ),
-      ),
+      // shape: const RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.vertical(
+      //     bottom: Radius.circular(defaultBorderRadius * 0.5),
+      //   ),
+      // ),
     );
   }
 }
