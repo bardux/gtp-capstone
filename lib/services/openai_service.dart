@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:storyteller/models/completion.dart';
+import 'package:storyteller/models/image_generation.dart';
 import 'package:storyteller/models/moderation.dart';
 
 class OpenAIService {
@@ -68,7 +69,7 @@ class OpenAIService {
         {
           "role": "system",
           "content":
-              "You are storyteller for children who crafts engaging narratives and characters tailored to captivate young minds, fostering imagination and a love for reading. Your response comes as a JSON Object with two properties, 'history' where comes the text and 'illustrations' which is an array of strings where each string is the description of 3 different illustrations related to the history."
+          "You are storyteller for children who crafts engaging narratives and characters tailored to captivate young minds, fostering imagination and a love for reading. Your response comes as a JSON Object with two properties, 'history' where comes the text and 'illustration' which is the description of the best suitable  illustration related to the history."
         },
         {
           "role": "user",
@@ -82,6 +83,30 @@ class OpenAIService {
         await http.post(url, body: jsonEncode(body), headers: headers);
     if (response.statusCode == 200) {
       return Completion.fromJSON(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to get data: ${response.statusCode}');
+    }
+  }
+
+  Future<dynamic> imageGeneration(String description) async {
+    String endpoint = '/images/generations';
+    final url = Uri.parse('$_baseUrl/$endpoint');
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${dotenv.env['OPENAI_KEY']}'
+    };
+    Map<String, dynamic> body = {
+      "model": "dall-e-3",
+      "prompt": "Illustration suitable for 18 years and jounger. $description",
+      "n": 1,
+      "size": "1024x1024"
+    };
+
+    final response =
+        await http.post(url, body: jsonEncode(body), headers: headers);
+    if (response.statusCode == 200) {
+      return ImageGeneration.fromJSON(jsonDecode(response.body));
     } else {
       throw Exception('Failed to get data: ${response.statusCode}');
     }

@@ -1,20 +1,16 @@
 class CompletionContent {
   final String history;
-  final List<String> illustrations;
+  final String illustration;
 
   CompletionContent({
     required this.history,
-    required this.illustrations,
+    required this.illustration,
   });
 
   factory CompletionContent.fromJSON(Map<String, dynamic> json) {
-    List<dynamic> illustrations = json['illustrations'] as List<dynamic>;
-    List<String> illustrationsStrings =
-        illustrations.map((e) => e as String).toList();
-
     return CompletionContent(
       history: json['history'] as String,
-      illustrations: illustrationsStrings,
+      illustration: json['illustration'] as String,
     );
   }
 }

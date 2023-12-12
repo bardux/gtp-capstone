@@ -19,7 +19,7 @@ class _StoryScreenState extends State<StoryScreen> {
   final OpenAIService _openAIService = OpenAIService();
   bool _isLoading = false;
   String _history = "";
-  List<String> _illustrationsDescription = [];
+  String _illustrationDescription = "";
 
   @override
   void initState() {
@@ -32,13 +32,15 @@ class _StoryScreenState extends State<StoryScreen> {
     Completion completion = await _openAIService.completions(widget.topic);
     if (completion.choices.finishReason == "stop") {
       setState(() => _history = completion.choices.message.content.history);
-      List<String> illustrations = [];
-      for (var element in completion.choices.message.content.illustrations) {
-        illustrations.add(element);
-      }
-      setState(() => _illustrationsDescription = illustrations);
+      setState(() => _illustrationDescription =
+          completion.choices.message.content.illustration);
     }
-    setState(() => _isLoading = false);
+  }
+
+  void stopLoading() {
+    Future.delayed(Duration.zero, () async {
+      setState(() => _isLoading = false);
+    });
   }
 
   @override
@@ -49,7 +51,10 @@ class _StoryScreenState extends State<StoryScreen> {
         appBar: const CustomAppBar(),
         body: Stack(
           children: [
-            Illustrator(illustrationsDescription: _illustrationsDescription),
+            Illustrator(
+              illustrationDescription: _illustrationDescription,
+              callback: stopLoading,
+            ),
             const Opacity(
               opacity: 0.6,
               child: ModalBarrier(
@@ -57,21 +62,22 @@ class _StoryScreenState extends State<StoryScreen> {
                 color: Colors.black,
               ),
             ),
-            Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Padding(
-                  padding: const EdgeInsets.all(defaultPadding * 2),
-                  child: Text(
-                    _history,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      color: Color(0xFFB8C0D9),
+            if (!_isLoading)
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Padding(
+                    padding: const EdgeInsets.all(defaultPadding * 2),
+                    child: Text(
+                      _history,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        color: Color(0xFFB8C0D9),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
